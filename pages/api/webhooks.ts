@@ -3,9 +3,7 @@ import { buffer } from 'micro'
 import Stripe from 'stripe'
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!
-const stripe = new Stripe(process.env.STRIPE_API_KEY!, {
-    apiVersion: '2024-12-18'
-})
+const stripe = new Stripe(process.env.STRIPE_API_KEY!)
 
 export const config = {
     api: {
