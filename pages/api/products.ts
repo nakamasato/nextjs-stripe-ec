@@ -6,8 +6,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method?.toLocaleLowerCase() !== 'get') {
         return res.status(405).end()
     }
-    const stripe = new Stripe(process.env.STRIPE_API_KEY, {
-        apiVersion: '2020-08-27', // StripeのAPIバージョンを指定
+    const stripe = new Stripe(process.env.STRIPE_API_KEY!, {
+        apiVersion: '2025-07-30.basil', // StripeのAPIバージョンを指定
         maxNetworkRetries: 3 // ネットワークエラーでStripe API呼び出しが失敗した時のリトライ回数を指定
     })
     const products = await stripe.products.list()

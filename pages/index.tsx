@@ -2,19 +2,52 @@ import Head from 'next/head'
 import { Button, Col, Container, Image, Row, Stack } from "react-bootstrap"
 import { loadStripe } from '@stripe/stripe-js'
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from '@clerk/nextjs'
+import type { GetServerSideProps } from 'next'
 
-export async function getStaticProps() {
-  const products = await fetch('http://localhost:3000/api/products')
-    .then(response => response.json())
-  return {
-    props: {
-      products
-    },
-    revalidate: 1 * 60
+interface Price {
+  id: string
+  currency: string
+  transform_quantity?: {
+    divide_by: number
+  }
+  unit_amount: number
+}
+
+interface Product {
+  id: string
+  description: string
+  name: string
+  images: string[]
+  unit_label?: string
+  prices: Price[]
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    // サーバーサイドではローカルAPIを呼べる
+    const apiUrl = process.env.NODE_ENV === 'production' 
+      ? process.env.NEXT_PUBLIC_API_URL || 'https://your-domain.com'
+      : 'http://localhost:3000'
+    
+    const response = await fetch(`${apiUrl}/api/products`)
+    const products = await response.json()
+    
+    return {
+      props: {
+        products: products || []
+      }
+    }
+  } catch (error) {
+    console.error('Failed to fetch products:', error)
+    return {
+      props: {
+        products: []
+      }
+    }
   }
 }
 
-export default function Home({ products }) {
+export default function Home({ products }: { products: Product[] }) {
   const handleCheckout = async (priceId: string) => {
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY!)
     if (!stripe) return
@@ -87,7 +120,7 @@ export default function Home({ products }) {
           <div className="my-4">
             <h2 className="mb-4">商品一覧</h2>
             <Stack gap={3}>
-              {products.map(product => {
+              {products.map((product: Product) => {
                 return (
                   <Row key={product.id} className="product-item p-3 border rounded">
                     <Col xs={4}>
@@ -104,7 +137,7 @@ export default function Home({ products }) {
                         <p className="text-muted">{product.description}</p>
                       </Stack>
                       <Stack direction="horizontal">
-                        {product.prices.map(price => {
+                        {product.prices.map((price: Price) => {
                           return (
                             <dl key={price.id}>
                               <dt>価格</dt>
