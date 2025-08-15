@@ -24,7 +24,6 @@ interface Product {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    // サーバーサイドではローカルAPIを呼べる
     const apiUrl = process.env.NODE_ENV === 'production' 
       ? process.env.NEXT_PUBLIC_API_URL || 'https://your-domain.com'
       : 'http://localhost:3000'
