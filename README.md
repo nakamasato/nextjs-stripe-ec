@@ -32,6 +32,9 @@ STRIPE_API_KEY=rk_test_your_restricted_key_here
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY=pk_test_your_publishable_key_here
 STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
 
+# API URL (required in production)
+NEXT_PUBLIC_API_URL=http://localhost:3000
+
 # Clerk Configuration
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your_clerk_publishable_key_here
 CLERK_SECRET_KEY=sk_test_your_clerk_secret_key_here
@@ -105,5 +108,9 @@ npm run build       # 本番ビルド
 
 ## 参考資料
 
-- [Next.jsとStripeではじめるシンプルなECサイト開発ワークショップ](https://zenn.dev/stripe/books/stripe-nextjs-use-shopping-cart)
-- [Clerk公式ドキュメント](https://clerk.com/docs/quickstarts/nextjs)
+- Framework: [Nextjs](https://nextjs.org/)
+- Auth: [Clerk](https://clerk.com/docs/quickstarts/nextjs)
+- Payment: [Stripe](https://docs.stripe.com/)
+- Deployment: [Vercel](https://vercel.com/)
+- Blog
+  - [Next.jsとStripeではじめるシンプルなECサイト開発ワークショップ](https://zenn.dev/stripe/books/stripe-nextjs-use-shopping-cart)

@@ -25,8 +25,12 @@ interface Product {
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const apiUrl = process.env.NODE_ENV === 'production' 
-      ? process.env.NEXT_PUBLIC_API_URL || 'https://your-domain.com'
+      ? process.env.NEXT_PUBLIC_API_URL
       : 'http://localhost:3000'
+    
+    if (!apiUrl) {
+      throw new Error('NEXT_PUBLIC_API_URL environment variable is required in production')
+    }
     
     const response = await fetch(`${apiUrl}/api/products`)
     const products = await response.json()

@@ -16,6 +16,14 @@
 2. 本番用のAPIキーを取得
 3. 本番ドメインを設定
 
+### API URL設定
+
+`NEXT_PUBLIC_API_URL`は本番環境で**必須**の環境変数です：
+
+- **目的**: サーバーサイドレンダリング時のAPI呼び出し用URL
+- **設定値**: あなたのVercelドメイン（例：`https://your-project.vercel.app`）
+- **注意**: 設定しないと商品一覧が表示されずエラーになります
+
 ## 2. Vercelへのデプロイ（推奨）
 
 ### 環境変数の設定
@@ -24,6 +32,7 @@
 STRIPE_API_KEY=rk_live_your_production_key
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY=pk_live_your_production_key
 STRIPE_WEBHOOK_SECRET=whsec_your_production_webhook_secret
+NEXT_PUBLIC_API_URL=https://your-vercel-domain.vercel.app
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_your_production_key
 CLERK_SECRET_KEY=sk_live_your_production_key
 ```
@@ -42,6 +51,7 @@ CLERK_SECRET_KEY=sk_live_your_production_key
 - [ ] Clerkの本番ドメインが正しく設定されている
 - [ ] StripeのWebhook URLが本番URLに設定されている
 - [ ] テストモードのキーが含まれていない
+- [ ] **NEXT_PUBLIC_API_URL**が正しいVercelドメインに設定されている
 
 ## 4. Stripe Webhook設定（本番環境）
 
