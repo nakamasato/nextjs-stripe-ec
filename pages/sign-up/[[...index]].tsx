@@ -1,9 +1,9 @@
 import { SignUp } from "@clerk/nextjs";
-import { Container } from 'react-bootstrap';
+import { Container } from '@/components/ui/container';
 
 export default function SignUpPage() {
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+    <Container className="flex justify-center items-center min-h-[80vh]">
       <SignUp />
     </Container>
   );

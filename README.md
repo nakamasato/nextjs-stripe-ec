@@ -110,6 +110,7 @@ npm run build       # 本番ビルド
 
 - Framework: [Nextjs](https://nextjs.org/)
 - Auth: [Clerk](https://clerk.com/docs/quickstarts/nextjs)
+- UI: [ShadCN](https://ui.shadcn.com/)
 - Payment: [Stripe](https://docs.stripe.com/)
 - Deployment: [Vercel](https://vercel.com/)
 - Blog
