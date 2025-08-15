@@ -1,5 +1,16 @@
 import Head from "next/head"
-export default function HelloWorld(props: any) {
+import { GetServerSidePropsContext } from "next"
+
+interface HelloWorldProps {
+    products: Array<{
+        id: string;
+        name: string;
+        description: string;
+        images: string[];
+    }>
+}
+
+export default function HelloWorld(props: HelloWorldProps) {
     return (
         <div>
             <Head>
@@ -12,7 +23,7 @@ export default function HelloWorld(props: any) {
     )
 }
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
     try {
         const host = context.req.headers.host || 'localhost:3000'
         const protocol = /^localhost/.test(host) ? 'http' : 'https'

@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!products.data || products.data.length < 1) {
         return res.status(200).json([])
     }
-    const response = await Promise.all(products.data.map(async (product, i) => {
+    const response = await Promise.all(products.data.map(async (product) => {
         const prices = await stripe.prices.list({
             product: product.id,
         })
