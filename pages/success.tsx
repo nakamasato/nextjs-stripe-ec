@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { Container } from 'react-bootstrap'
+import Link from 'next/link'
 
 export default function Success() {
   return (
@@ -13,7 +14,7 @@ export default function Success() {
         <h1 className="text-success mb-4">決済完了</h1>
         <p className="lead">ご注文ありがとうございます。</p>
         <p>決済が正常に完了いたしました。</p>
-        <a href="/" className="btn btn-primary">トップページに戻る</a>
+        <Link href="/" className="btn btn-primary">トップページに戻る</Link>
       </Container>
     </main>
   )
