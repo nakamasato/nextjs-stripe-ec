@@ -108,5 +108,9 @@ npm run build       # 本番ビルド
 
 ## 参考資料
 
-- [Next.jsとStripeではじめるシンプルなECサイト開発ワークショップ](https://zenn.dev/stripe/books/stripe-nextjs-use-shopping-cart)
-- [Clerk公式ドキュメント](https://clerk.com/docs/quickstarts/nextjs)
+- Framework: [Nextjs](https://nextjs.org/)
+- Auth: [Clerk](https://clerk.com/docs/quickstarts/nextjs)
+- Payment: [Stripe](https://docs.stripe.com/)
+- Deployment: [Vercel](https://vercel.com/)
+- Blog
+  - [Next.jsとStripeではじめるシンプルなECサイト開発ワークショップ](https://zenn.dev/stripe/books/stripe-nextjs-use-shopping-cart)
