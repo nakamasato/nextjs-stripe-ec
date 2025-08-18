@@ -7,7 +7,9 @@
   - [Clerk](https://clerk.com/): SaaS, free for 10,000 MAU
   - [Supabase Auth](https://supabase.com/docs/guides/auth): SaaS, free for 50,000 MAU
   - [Auth.js](https://authjs.dev/): Open source auth lib
-- **DB**: [Supabase](https://supabase.com/docs/guides/database/overview): free for 500MB
+- **DB**:
+  - [Supabase](https://supabase.com/docs/guides/database/overview): free for 500MB
+  - [Neon](https://neon.tech/): free for 0.5GB, $19/month for Pro
 - **Payment**: [Stripe](https://stripe.com/en-jp)
 
 ## 実装パターンと評価
@@ -20,6 +22,8 @@
 - なるべくシステムはシンプルにしたい
 - SaaSで従量課金系は最初は避けたい、ある程度スケールしたら仕方ない
 - ベンダーロックインに関するリスク（移行工数）
+- データクエリの柔軟性（検索・分析機能）
+- 大規模データでのパフォーマンス（1000+ ユーザー時）
 
 ### 1. 推奨: Clerk + Stripe (DBなし)
 
@@ -83,7 +87,72 @@
 - [Build a task manager with Next.js, Supabase, and Clerk](https://clerk.com/blog/nextjs-supabase-clerk)
 - [Clerk's Connect with Supabase](https://supabase.com/docs/guides/auth/third-party/clerk)
 
-### 3. Supabase Auth + Supabase DB
+### 3. Clerk + Neon DB
+
+**要件適合度: ⭐⭐⭐ 中**
+
+| 項目               | 評価 | 詳細                                  |
+| ------------------ | ---- | ------------------------------------- |
+| Stripe決済         | ◎    | 問題なし                              |
+| Googleログイン     | ◎    | 標準サポート                          |
+| Org-Members        | ◎    | Clerk Organizations + Neonで拡張可能  |
+| シンプルさ         | △    | 3サービス、Webhook連携必要            |
+| 初期コスト         | △    | 2サービス分の料金                     |
+| ベンダーロックイン | △    | Clerk移行時の工数は同じ、DB部分は独立 |
+
+**利点**:
+
+- PostgreSQL互換で高パフォーマンス
+- Supabaseより高い可用性・スケーラビリティ
+- カスタムデータの永続化が可能
+- 優れたブランチング機能（開発・本番環境の分離）
+
+**欠点**:
+
+- Webhook設定、ID管理が複雑
+- 2つのサービス料金
+- Supabaseのような統合認証機能なし
+
+### 4. Stripe Metadata連携 (DBなし)
+
+**要件適合度: ⭐⭐⭐⭐ 高（小規模向け）**
+
+| 項目               | 評価 | 詳細                              |
+| ------------------ | ---- | --------------------------------- |
+| Stripe決済         | ◎    | ネイティブ統合                    |
+| Googleログイン     | ◎    | 標準サポート                      |
+| Org-Members        | ◎    | Clerk Organizations機能で完全対応 |
+| シンプルさ         | ◎    | 最もシンプル（DB不要）            |
+| 初期コスト         | ○    | Clerk無料枠10,000 MAU             |
+| ベンダーロックイン | △    | Stripe依存度高、検索性能に制限    |
+
+**利点**:
+
+- データベース設定・管理不要
+- 最小限の実装で連携可能
+- Stripeが自動的にデータ管理
+- 運用コスト最小
+
+**欠点**:
+
+- Metadataサイズ制限（50 keys、各500文字）
+- 複雑な検索・クエリが困難
+- 大量ユーザーでの検索パフォーマンス低下
+- Stripe APIに依存したデータアクセス
+
+**実装例**:
+
+```typescript
+// Stripe顧客作成時
+const customer = await stripe.customers.create({
+  email: user.primaryEmailAddress?.emailAddress,
+  metadata: {
+    clerk_user_id: user.id,
+  },
+});
+```
+
+### 5. Supabase Auth + Supabase DB
 
 **要件適合度: ⭐⭐ 低**
 
