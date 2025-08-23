@@ -2,7 +2,9 @@
 
 ![デモ](docs/demo.gif)
 
-Clerk認証とStripe決済を使用したモダンなECサイトです。
+**Clerk認証とStripe決済を統合したサブスクリプション対応のモダンなECサイト**
+
+SaaS向けの機能を含む本格的なECプラットフォームです。
 
 ## セットアップ手順
 
@@ -12,9 +14,10 @@ Clerk認証とStripe決済を使用したモダンなECサイトです。
 - [商品とPriceの作成](docs/stripe-02-product-and-price.md)
 - [Webhookの設定](docs/stripe-03-webhook.md)
 
-### 2. Clerk Setup (認証機能)
+### 2. Clerk Setup (認証・ユーザー管理)
 
-- [Clerk認証セットアップ](docs/clerk-setup.md)
+- [Clerk認証セットアップ](docs/clerk.md)
+- [Clerk Billing セットアップ](docs/clerk-billing-setup.md)
 
 ### 3. 依存関係のインストール
 
@@ -54,6 +57,8 @@ npm run dev
 
 [http://localhost:3000](http://localhost:3000)でアプリケーションを確認できます。
 
+**Note**: 開発サーバーはTurbopackを使用して高速化されています。
+
 ### コード品質チェック
 
 ```bash
@@ -70,6 +75,21 @@ npm run build       # 本番ビルド
   - 未認証時: スタイリッシュなランディングページ（新規登録・ログインボタン）
   - 認証済み: 商品一覧ページ
 
+- **`/pricing`**
+  - サブスクリプションプランの表示
+  - Clerkの料金テーブルコンポーネントを使用
+  - 14日間の無料トライアル対応
+
+- **`/account`**
+  - ユーザープロフィール管理
+  - サブスクリプション・請求設定
+  - 認証が必要
+
+- **`/monitoring`**
+  - プレミアム機能: ビジネス分析ダッシュボード
+  - 機能ベースのアクセス制御
+  - アップグレードプロンプト表示
+
 - **`/sign-in` / `/sign-up`**
   - Clerkによる認証ページ（モーダル表示）
   - Google OAuth対応
@@ -78,20 +98,37 @@ npm run build       # 本番ビルド
   - 決済完了ページ
   - Stripeからのリダイレクト先
 
+- **`/subscription-success`**
+  - サブスクリプション完了ページ
+
 ### API エンドポイント
 
 - **`/api/products`**: 商品データ取得
 - **`/api/checkout`**: チェックアウトセッション作成（認証必須）
+- **`/api/create-subscription`**: サブスクリプション作成（認証必須）
 - **`/api/webhooks`**: Stripe Webhook処理
 
-### 認証・決済機能
+### 核となる機能
 
-- Clerkによるユーザー認証
-  - Email/Password認証
-  - Google OAuth認証
-  - セッション管理
-- Stripe Checkoutによる安全な決済
-- Webhookによる決済状態の自動更新
+#### 🔐 認証・ユーザー管理 (Clerk)
+
+- **多様な認証方式**: Email/Password、Google OAuth
+- **ユーザー管理**: プロフィール、アカウント設定
+- **セッション管理**: 安全で持続的なログイン
+- **組織管理**: チーム・組織対応（Organization機能）
+
+#### 💳 決済・サブスクリプション (Stripe)
+
+- **一回購入**: Stripe Checkoutによる安全な決済
+- **サブスクリプション**: 定期課金プラン対応
+- **請求管理**: Clerkの課金ポータル統合
+- **Webhook処理**: リアルタイムでの決済状態更新
+
+#### 🛡️ セキュリティ・認可
+
+- **ルートガード**: 認証が必要なページの保護
+- **機能ベース認可**: プレミアム機能へのアクセス制御
+- **APIセキュリティ**: 認証必須エンドポイントの保護
 
 ## テスト用情報
 
@@ -106,12 +143,52 @@ npm run build       # 本番ビルド
 
 [本番環境セットアップガイド](docs/production-setup.md)を参照してください。
 
+## 技術スタック
+
+### フレームワーク・ライブラリ
+
+- **Frontend**: [Next.js 15](https://nextjs.org/) (with Turbopack)
+- **React**: v19.1.1
+- **TypeScript**: 型安全な開発環境
+- **UI Components**: [ShadCN/UI](https://ui.shadcn.com/) + [Lucide Icons](https://lucide.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+
+### 認証・決済
+
+- **認証**: [Clerk](https://clerk.com/docs/quickstarts/nextjs) - 現代的なユーザー管理
+- **決済**: [Stripe](https://docs.stripe.com/) - 安全で柔軟な決済処理
+
+### 開発・品質管理
+
+- **コード品質**: ESLint + Prettier
+- **Git Hooks**: Husky + lint-staged
+- **開発体験**: Turbopack（高速開発サーバー）
+
+## アーキテクチャの特徴
+
+### 🚀 SaaS Ready
+
+- サブスクリプションモデル対応
+- 機能ベースアクセス制御
+- 組織・チーム管理対応
+
+### 🔧 開発者体験
+
+- TypeScript完全対応
+- 自動リント・フォーマット
+- Hot Reload（Turbopack）
+
+### 📈 スケーラビリティ
+
+- **Clerk + Stripe**: 認証と決済の統合アーキテクチャ
+- **無料枠**: Clerk 10,000 MAU、豊富な機能
+- **詳細**: [技術スタック比較](docs/techstack.md)
+
 ## 参考資料
 
-- Framework: [Nextjs](https://nextjs.org/)
-- Auth: [Clerk](https://clerk.com/docs/quickstarts/nextjs)
-- UI: [ShadCN](https://ui.shadcn.com/)
-- Payment: [Stripe](https://docs.stripe.com/)
+- Framework: [Next.js](https://nextjs.org/)
+- Auth: [Clerk Documentation](https://clerk.com/docs/quickstarts/nextjs)
+- UI: [ShadCN/UI](https://ui.shadcn.com/)
+- Payment: [Stripe Documentation](https://docs.stripe.com/)
 - Deployment: [Vercel](https://vercel.com/)
-- Blog
-  - [Next.jsとStripeではじめるシンプルなECサイト開発ワークショップ](https://zenn.dev/stripe/books/stripe-nextjs-use-shopping-cart)
+- Blog: [Next.jsとStripeではじめるシンプルなECサイト開発ワークショップ](https://zenn.dev/stripe/books/stripe-nextjs-use-shopping-cart)
