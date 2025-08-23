@@ -7,7 +7,7 @@ const Navbar = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
       <nav
         ref={ref}
         className={cn(
-          "sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+          "sticky top-0 z-50 w-full border-b border-border/40",
           className
         )}
         {...props}
