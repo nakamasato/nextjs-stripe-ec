@@ -170,6 +170,27 @@ export default function Home({ products }: { products: Product[] }) {
 
       <SignedIn>
         <Container className="py-8">
+          {/* Notice about payment methods */}
+          <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-8">
+            <div className="flex items-start">
+              <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                個々の商品は自分のStripe決済を使っています。Subscriptionは
+                <a 
+                  href="https://clerk.com/docs/billing/overview" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="underline hover:text-blue-900 dark:hover:text-blue-100 font-medium"
+                >
+                  Clerk Billing
+                </a>
+                を使っています。
+              </p>
+            </div>
+          </div>
+
           <h2 className="text-3xl font-bold mb-8">商品一覧</h2>
           <div className="space-y-6">
             {products.map((product: Product) => {

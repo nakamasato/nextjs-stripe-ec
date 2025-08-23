@@ -5,6 +5,12 @@
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"],
       "env": {}
+    },
+    "nextjs-docs-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@taiyokimura/nextjs-docs-mcp@latest"],
+      "env": {}
     }
   }
 }
