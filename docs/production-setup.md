@@ -1,32 +1,32 @@
-# 本番環境構築
+# Production Environment Setup
 
-## 1. 環境変数の設定
+## 1. Environment Variables Configuration
 
-本番環境では以下の環境変数を設定する必要があります:
+The following environment variables need to be set in production:
 
-### Stripe本番キー
+### Stripe Production Keys
 
-1. Stripeダッシュボードで本番モードに切り替え
-2. 本番用のAPIキーを取得
-3. 本番用のWebhook署名シークレットを設定
+1. Switch to production mode in Stripe dashboard
+2. Obtain production API keys
+3. Set production webhook signature secret
 
-### Clerk本番キー
+### Clerk Production Keys
 
-1. Clerkダッシュボードで本番用アプリケーションを作成
-2. 本番用のAPIキーを取得
-3. 本番ドメインを設定
+1. Create production application in Clerk dashboard
+2. Obtain production API keys
+3. Configure production domain
 
-### API URL設定
+### API URL Configuration
 
-`NEXT_PUBLIC_API_URL`は本番環境で**必須**の環境変数です：
+`NEXT_PUBLIC_API_URL` is a **required** environment variable in production:
 
-- **目的**: サーバーサイドレンダリング時のAPI呼び出し用URL
-- **設定値**: あなたのVercelドメイン（例：`https://your-project.vercel.app`）
-- **注意**: 設定しないと商品一覧が表示されずエラーになります
+- **Purpose**: URL for API calls during server-side rendering
+- **Value**: Your Vercel domain (e.g., `https://your-project.vercel.app`)
+- **Note**: Without this setting, product listing will not display and cause errors
 
-## 2. Vercelへのデプロイ（推奨）
+## 2. Deploy to Vercel (Recommended)
 
-### 環境変数の設定
+### Environment Variables Setup
 
 ```
 STRIPE_API_KEY=rk_live_your_production_key
@@ -37,35 +37,35 @@ NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_your_production_key
 CLERK_SECRET_KEY=sk_live_your_production_key
 ```
 
-### デプロイ手順
+### Deployment Steps
 
-1. GitHubにコードをプッシュ
-2. Vercelでプロジェクトをインポート
-3. 環境変数を設定
-4. デプロイ
+1. Push code to GitHub
+2. Import project in Vercel
+3. Configure environment variables
+4. Deploy
 
-## 3. セキュリティチェックリスト
+## 3. Security Checklist
 
-- [ ] すべてのAPIキーが本番用に変更されている
-- [ ] HTTPS/SSLが有効になっている
-- [ ] Clerkの本番ドメインが正しく設定されている
-- [ ] StripeのWebhook URLが本番URLに設定されている
-- [ ] テストモードのキーが含まれていない
-- [ ] **NEXT_PUBLIC_API_URL**が正しいVercelドメインに設定されている
+- [ ] All API keys are changed to production versions
+- [ ] HTTPS/SSL is enabled
+- [ ] Clerk production domain is correctly configured
+- [ ] Stripe webhook URL is set to production URL
+- [ ] Test mode keys are not included
+- [ ] **NEXT_PUBLIC_API_URL** is set to correct Vercel domain
 
-## 4. Stripe Webhook設定（本番環境）
+## 4. Stripe Webhook Setup (Production)
 
-1. Stripeダッシュボードで「開発者」→「Webhook」を選択
-2. 「エンドポイントを追加」をクリック
-3. エンドポイントURL: `https://your-domain.com/api/webhooks`
-4. 以下のイベントを選択:
+1. Select "Developers" → "Webhooks" in Stripe dashboard
+2. Click "Add endpoint"
+3. Endpoint URL: `https://your-domain.com/api/webhooks`
+4. Select the following events:
    - `checkout.session.completed`
    - `payment_intent.succeeded`
-5. 署名シークレットを環境変数に設定
+5. Set signature secret in environment variables
 
-## 5. 動作確認
+## 5. Functionality Verification
 
-1. 本番環境でユーザー登録・ログインができることを確認
-2. 商品一覧が表示されることを確認
-3. テスト決済が正常に処理されることを確認
-4. Webhook が正常に動作することを確認
+1. Verify user registration and login work in production
+2. Verify product listing displays correctly
+3. Verify test payments are processed correctly
+4. Verify webhooks function properly

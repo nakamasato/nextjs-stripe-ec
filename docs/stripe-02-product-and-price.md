@@ -1,33 +1,33 @@
-# Stripe 商品とPriceの作成
+# Create Stripe Products and Prices
 
-## 1. 商品の作成
+## 1. Create Products
 
-1. Stripeダッシュボードで「商品カタログ」→「商品」を選択
-2. 「商品を追加」をクリック
-3. 以下の情報を入力:
-   - **商品名**: 表示する商品名
-   - **説明**: 商品の詳細説明
-   - **画像**: 商品画像をアップロード
+1. Select "Product catalog" → "Products" in Stripe dashboard
+2. Click "Add product"
+3. Enter the following information:
+   - **Product name**: Display name for the product
+   - **Description**: Detailed product description
+   - **Image**: Upload product image
 
-## 2. 価格（Price）の設定
+## 2. Configure Pricing
 
-1. 商品作成画面で価格情報を設定:
-   - **価格モデル**: 「標準の価格体系」を選択
-   - **価格**: 金額を入力
-   - **通貨**: JPY（日本円）を選択
-   - **請求期間**: 「1回限り」を選択
+1. Set pricing information on the product creation screen:
+   - **Pricing model**: Select "Standard pricing"
+   - **Price**: Enter the amount
+   - **Currency**: Select JPY (Japanese Yen)
+   - **Billing period**: Select "One time"
 
-2. 商品を保存
+2. Save the product
 
-## 3. 商品IDとPrice IDの取得
+## 3. Obtain Product ID and Price ID
 
-保存後、以下のIDをメモしてください:
+After saving, note the following IDs:
 
-- **商品ID**: `prod_`で始まる文字列
-- **Price ID**: `price_`で始まる文字列
+- **Product ID**: String starting with `prod_`
+- **Price ID**: String starting with `price_`
 
-これらのIDは`pages/api/products.ts`で使用します。
+These IDs will be used in `pages/api/products.ts`.
 
-## 4. 複数商品の作成
+## 4. Create Multiple Products
 
-ECサイトに表示する商品の数だけ、上記の手順を繰り返してください。
+Repeat the above steps for as many products as you want to display on your EC site.
