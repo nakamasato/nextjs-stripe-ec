@@ -1,11 +1,11 @@
-import Head from 'next/head'
+'use client'
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/ui/container"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { loadStripe } from '@stripe/stripe-js'
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from '@clerk/nextjs'
-import type { GetServerSideProps } from 'next'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 interface Price {
   id: string
@@ -25,35 +25,24 @@ interface Product {
   prices: Price[]
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  try {
-    const apiUrl = process.env.NODE_ENV === 'production' 
-      ? process.env.NEXT_PUBLIC_API_URL
-      : 'http://localhost:3000'
-    
-    if (!apiUrl) {
-      throw new Error('NEXT_PUBLIC_API_URL environment variable is required in production')
-    }
-    
-    const response = await fetch(`${apiUrl}/api/products`)
-    const products = await response.json()
-    
-    return {
-      props: {
-        products: products || []
-      }
-    }
-  } catch (error) {
-    console.error('Failed to fetch products:', error)
-    return {
-      props: {
-        products: []
-      }
-    }
-  }
-}
+export default function Home() {
+  const [products, setProducts] = useState<Product[]>([])
 
-export default function Home({ products }: { products: Product[] }) {
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch('/api/products')
+        const products = await response.json()
+        setProducts(products || [])
+      } catch (error) {
+        console.error('Failed to fetch products:', error)
+        setProducts([])
+      }
+    }
+    
+    fetchProducts()
+  }, [])
+
   const handleCheckout = async (priceId: string) => {
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY!)
     if (!stripe) return
@@ -70,12 +59,6 @@ export default function Home({ products }: { products: Product[] }) {
 
   return (
     <main>
-      <Head>
-        <title>Hello EC - Premium Online Store</title>
-        <meta name="description" content="Premium products with secure checkout" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <SignedOut>
         <div className="min-h-[85vh] bg-background flex items-center justify-center relative overflow-hidden">
           {/* Background Pattern */}

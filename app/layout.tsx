@@ -1,10 +1,18 @@
 import "@/styles/globals.css";
-import type { AppProps } from "next/app";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import Link from 'next/link';
 import { Container } from '@/components/ui/container';
 import { Navbar, NavbarContent, NavbarBrand, NavbarNav } from '@/components/ui/navbar';
 import { ClerkProvider, SignedIn, UserButton } from '@clerk/nextjs';
 import { ChatSupport } from '@/components/ChatSupport';
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: 'Hello EC',
+  description: 'Demo EC site with Stripe',
+}
 
 function NavBar() {
   return (
@@ -46,14 +54,22 @@ function NavBar() {
   );
 }
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <ClerkProvider>
-      <NavBar />
-      <Component {...pageProps} />
-      <SignedIn>
-        <ChatSupport />
-      </SignedIn>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`${inter.className} antialiased`}>
+        <ClerkProvider>
+          <NavBar />
+          {children}
+          <SignedIn>
+            <ChatSupport />
+          </SignedIn>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

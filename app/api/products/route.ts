@@ -1,19 +1,17 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    // GET以外のリクエストを許可しない
-    if (req.method?.toLocaleLowerCase() !== 'get') {
-        return res.status(405).end()
-    }
+export async function GET() {
     const stripe = new Stripe(process.env.STRIPE_API_KEY!, {
-        apiVersion: '2025-07-30.basil', // StripeのAPIバージョンを指定
-        maxNetworkRetries: 3 // ネットワークエラーでStripe API呼び出しが失敗した時のリトライ回数を指定
+        apiVersion: '2025-07-30.basil',
+        maxNetworkRetries: 3
     })
+    
     const products = await stripe.products.list()
     if (!products.data || products.data.length < 1) {
-        return res.status(200).json([])
+        return NextResponse.json([])
     }
+    
     const response = await Promise.all(products.data.map(async (product) => {
         const prices = await stripe.prices.list({
             product: product.id,
@@ -34,5 +32,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             })
         }
     }))
-    res.status(200).json(response)
+    
+    return NextResponse.json(response)
 }
