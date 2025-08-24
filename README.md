@@ -1,33 +1,33 @@
-# Next.js Stripe ECサイト
+# Next.js Stripe EC Site
 
-![デモ](docs/demo.gif)
+![Demo](docs/demo.gif)
 
-**Clerk認証とStripe決済を統合したサブスクリプション対応のモダンなECサイト**
+**Modern EC site with subscription support integrating Clerk authentication and Stripe payments**
 
-SaaS向けの機能を含む本格的なECプラットフォームです。
+A full-featured EC platform with functionality for SaaS applications.
 
-## セットアップ手順
+## Setup Instructions
 
-### 1. Stripe Setup (決済と商品設定)
+### 1. Stripe Setup (Payments and Product Configuration)
 
-- [Stripeアカウントセットアップ](docs/stripe-01-setup.md)
-- [商品とPriceの作成](docs/stripe-02-product-and-price.md)
-- [Webhookの設定](docs/stripe-03-webhook.md)
+- [Stripe Account Setup](docs/stripe-01-setup.md)
+- [Create Products and Prices](docs/stripe-02-product-and-price.md)
+- [Webhook Configuration](docs/stripe-03-webhook.md)
 
-### 2. Clerk Setup (認証・ユーザー管理)
+### 2. Clerk Setup (Authentication and User Management)
 
-- [Clerk認証セットアップ](docs/clerk.md)
-- [Clerk Billing セットアップ](docs/clerk-billing-setup.md)
+- [Clerk Authentication Setup](docs/clerk.md)
+- [Clerk Billing Setup](docs/clerk-billing-setup.md)
 
-### 3. 依存関係のインストール
+### 3. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 4. 環境変数の設定
+### 4. Environment Variables Setup
 
-`.env.local`ファイルを作成し、以下の内容を追加:
+Create a `.env.local` file and add the following content:
 
 ```env
 # Stripe Configuration
@@ -43,152 +43,152 @@ NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your_clerk_publishable_key_here
 CLERK_SECRET_KEY=sk_test_your_clerk_secret_key_here
 ```
 
-### 5. 商品データの更新
+### 5. Update Product Data
 
-`pages/api/products.ts`を編集し、Stripeで作成した商品データを設定してください。
+Edit `pages/api/products.ts` and configure the product data created in Stripe.
 
-## Local開発
+## Local Development
 
-### 開発サーバーの起動
+### Start Development Server
 
 ```bash
 npm run dev
 ```
 
-[http://localhost:3000](http://localhost:3000)でアプリケーションを確認できます。
+You can view the application at [http://localhost:3000](http://localhost:3000).
 
-**Note**: 開発サーバーはTurbopackを使用して高速化されています。
+**Note**: The development server is accelerated using Turbopack.
 
-### コード品質チェック
+### Code Quality Check
 
 ```bash
-npm run lint        # ESLintでコード品質チェック
-npx tsc --noEmit    # TypeScript型チェック
-npm run build       # 本番ビルド
+npm run lint        # Check code quality with ESLint
+npx tsc --noEmit    # TypeScript type check
+npm run build       # Production build
 ```
 
-## 主な機能
+## Main Features
 
-### ページ構成
+### Page Structure
 
-- **`/` (ホームページ)**
-  - 未認証時: スタイリッシュなランディングページ（新規登録・ログインボタン）
-  - 認証済み: 商品一覧ページ
+- **`/` (Homepage)**
+  - Unauthenticated: Stylish landing page (with sign-up/login buttons)
+  - Authenticated: Product listing page
 
 - **`/pricing`**
-  - サブスクリプションプランの表示
-  - Clerkの料金テーブルコンポーネントを使用
-  - 14日間の無料トライアル対応
+  - Subscription plan display
+  - Uses Clerk's pricing table component
+  - 14-day free trial support
 
 - **`/account`**
-  - ユーザープロフィール管理
-  - サブスクリプション・請求設定
-  - 認証が必要
+  - User profile management
+  - Subscription and billing settings
+  - Authentication required
 
 - **`/monitoring`**
-  - プレミアム機能: ビジネス分析ダッシュボード
-  - 機能ベースのアクセス制御
-  - アップグレードプロンプト表示
+  - Premium feature: Business analytics dashboard
+  - Feature-based access control
+  - Upgrade prompt display
 
 - **`/sign-in` / `/sign-up`**
-  - Clerkによる認証ページ（モーダル表示）
-  - Google OAuth対応
+  - Authentication pages by Clerk (modal display)
+  - Google OAuth support
 
 - **`/success`**
-  - 決済完了ページ
-  - Stripeからのリダイレクト先
+  - Payment completion page
+  - Redirect destination from Stripe
 
 - **`/subscription-success`**
-  - サブスクリプション完了ページ
+  - Subscription completion page
 
-### API エンドポイント
+### API Endpoints
 
-- **`/api/products`**: 商品データ取得
-- **`/api/checkout`**: チェックアウトセッション作成（認証必須）
-- **`/api/create-subscription`**: サブスクリプション作成（認証必須）
-- **`/api/webhooks`**: Stripe Webhook処理
+- **`/api/products`**: Fetch product data
+- **`/api/checkout`**: Create checkout session (authentication required)
+- **`/api/create-subscription`**: Create subscription (authentication required)
+- **`/api/webhooks`**: Stripe webhook processing
 
-### 核となる機能
+### Core Features
 
-#### 🔐 認証・ユーザー管理 (Clerk)
+#### 🔐 Authentication & User Management (Clerk)
 
-- **多様な認証方式**: Email/Password、Google OAuth
-- **ユーザー管理**: プロフィール、アカウント設定
-- **セッション管理**: 安全で持続的なログイン
-- **組織管理**: チーム・組織対応（Organization機能）
+- **Multiple authentication methods**: Email/Password, Google OAuth
+- **User management**: Profile, account settings
+- **Session management**: Secure and persistent login
+- **Organization management**: Team and organization support (Organization feature)
 
-#### 💳 決済・サブスクリプション (Stripe)
+#### 💳 Payments & Subscriptions (Stripe)
 
-- **一回購入**: Stripe Checkoutによる安全な決済
-- **サブスクリプション**: 定期課金プラン対応
-- **請求管理**: Clerkの課金ポータル統合
-- **Webhook処理**: リアルタイムでの決済状態更新
+- **One-time purchase**: Secure payments via Stripe Checkout
+- **Subscriptions**: Recurring billing plan support
+- **Billing management**: Clerk billing portal integration
+- **Webhook processing**: Real-time payment status updates
 
-#### 🛡️ セキュリティ・認可
+#### 🛡️ Security & Authorization
 
-- **ルートガード**: 認証が必要なページの保護
-- **機能ベース認可**: プレミアム機能へのアクセス制御
-- **APIセキュリティ**: 認証必須エンドポイントの保護
+- **Route guards**: Protection for pages requiring authentication
+- **Feature-based authorization**: Access control for premium features
+- **API security**: Protection for authentication-required endpoints
 
-## テスト用情報
+## Test Information
 
-### Stripeテストカード番号
+### Stripe Test Card Numbers
 
-- **成功**: 4242 4242 4242 4242
-- **失敗**: 4000 0000 0000 0002
-- **CVV**: 任意の3桁の数字
-- **有効期限**: 未来の日付
+- **Success**: 4242 4242 4242 4242
+- **Failure**: 4000 0000 0000 0002
+- **CVV**: Any 3-digit number
+- **Expiration**: Any future date
 
-## 本番環境構築
+## Production Environment Setup
 
-[本番環境セットアップガイド](docs/production-setup.md)を参照してください。
+Please refer to the [Production Setup Guide](docs/production-setup.md).
 
-## 技術スタック
+## Technology Stack
 
-### フレームワーク・ライブラリ
+### Frameworks & Libraries
 
 - **Frontend**: [Next.js 15](https://nextjs.org/) (with Turbopack)
 - **React**: v19.1.1
-- **TypeScript**: 型安全な開発環境
+- **TypeScript**: Type-safe development environment
 - **UI Components**: [ShadCN/UI](https://ui.shadcn.com/) + [Lucide Icons](https://lucide.dev/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 
-### 認証・決済
+### Authentication & Payment
 
-- **認証**: [Clerk](https://clerk.com/docs/quickstarts/nextjs) - 現代的なユーザー管理
-- **決済**: [Stripe](https://docs.stripe.com/) - 安全で柔軟な決済処理
+- **Authentication**: [Clerk](https://clerk.com/docs/quickstarts/nextjs) - Modern user management
+- **Payment**: [Stripe](https://docs.stripe.com/) - Secure and flexible payment processing
 
-### 開発・品質管理
+### Development & Quality Management
 
-- **コード品質**: ESLint + Prettier
+- **Code Quality**: ESLint + Prettier
 - **Git Hooks**: Husky + lint-staged
-- **開発体験**: Turbopack（高速開発サーバー）
+- **Developer Experience**: Turbopack (Fast development server)
 
-## アーキテクチャの特徴
+## Architecture Features
 
 ### 🚀 SaaS Ready
 
-- サブスクリプションモデル対応
-- 機能ベースアクセス制御
-- 組織・チーム管理対応
+- Subscription model support
+- Feature-based access control
+- Organization and team management support
 
-### 🔧 開発者体験
+### 🔧 Developer Experience
 
-- TypeScript完全対応
-- 自動リント・フォーマット
-- Hot Reload（Turbopack）
+- Full TypeScript support
+- Automatic linting and formatting
+- Hot Reload (Turbopack)
 
-### 📈 スケーラビリティ
+### 📈 Scalability
 
-- **Clerk + Stripe**: 認証と決済の統合アーキテクチャ
-- **無料枠**: Clerk 10,000 MAU、豊富な機能
-- **詳細**: [技術スタック比較](docs/techstack.md)
+- **Clerk + Stripe**: Integrated authentication and payment architecture
+- **Free tier**: Clerk 10,000 MAU, rich features
+- **Details**: [Technology Stack Comparison](docs/techstack.md)
 
-## 参考資料
+## References
 
 - Framework: [Next.js](https://nextjs.org/)
 - Auth: [Clerk Documentation](https://clerk.com/docs/quickstarts/nextjs)
 - UI: [ShadCN/UI](https://ui.shadcn.com/)
 - Payment: [Stripe Documentation](https://docs.stripe.com/)
 - Deployment: [Vercel](https://vercel.com/)
-- Blog: [Next.jsとStripeではじめるシンプルなECサイト開発ワークショップ](https://zenn.dev/stripe/books/stripe-nextjs-use-shopping-cart)
+- Blog: [Simple EC Site Development Workshop with Next.js and Stripe](https://zenn.dev/stripe/books/stripe-nextjs-use-shopping-cart)

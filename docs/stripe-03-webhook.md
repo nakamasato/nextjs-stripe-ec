@@ -1,8 +1,8 @@
-# Stripe Webhookの設定（開発環境）
+# Stripe Webhook Configuration (Development Environment)
 
-開発環境では、Stripe CLIを使用してWebhookをテストします。
+In development environment, we use Stripe CLI to test webhooks.
 
-## 1. Stripe CLIのインストール
+## 1. Install Stripe CLI
 
 ### macOS
 
@@ -12,37 +12,37 @@ brew install stripe/stripe-cli/stripe
 
 ### Windows
 
-[Stripe CLI ダウンロードページ](https://github.com/stripe/stripe-cli/releases)から最新版をダウンロード
+Download the latest version from [Stripe CLI download page](https://github.com/stripe/stripe-cli/releases)
 
-### その他のOS
+### Other OS
 
-[Stripe CLI公式ドキュメント](https://stripe.com/docs/stripe-cli)を参照
+Refer to [Stripe CLI official documentation](https://stripe.com/docs/stripe-cli)
 
-## 2. Stripe CLIへのログイン
+## 2. Login to Stripe CLI
 
 ```bash
 stripe login
 ```
 
-ブラウザが開くので、Stripeアカウントでログインを承認してください。
+A browser will open. Please authorize login with your Stripe account.
 
-## 3. Webhookイベントの転送
+## 3. Forward Webhook Events
 
-開発サーバーが起動している状態で、以下のコマンドを実行:
+With the development server running, execute the following command:
 
 ```bash
 stripe listen --forward-to http://localhost:3000/api/webhooks
 ```
 
-## 4. 署名シークレットの取得
+## 4. Obtain Signature Secret
 
-コマンド実行後に表示される署名シークレット（`whsec_`で始まる文字列）を`.env.local`ファイルに設定してください。
+Set the signature secret (string starting with `whsec_`) displayed after running the command in your `.env.local` file.
 
-## 5. 動作確認
+## 5. Verify Functionality
 
-決済を行うと、ターミナルにWebhookイベントのログが表示されます。これで決済完了の処理が正しく動作していることを確認できます。
+When you make a payment, webhook event logs will be displayed in the terminal. This confirms that payment completion processing is working correctly.
 
-## 注意事項
+## Notes
 
-- Stripe CLIは開発サーバーが起動している間、実行したままにしてください
-- 開発を再開するたびに`stripe listen`コマンドを実行する必要があります
+- Keep Stripe CLI running while the development server is active
+- You need to run the `stripe listen` command each time you resume development

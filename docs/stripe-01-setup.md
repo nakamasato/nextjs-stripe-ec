@@ -1,26 +1,26 @@
-# Stripe アカウントセットアップ
+# Stripe Account Setup
 
-## 1. アカウント作成
+## 1. Account Creation
 
-1. [Stripe](https://stripe.com)でアカウントを作成
-2. ダッシュボードにログイン
+1. Create an account at [Stripe](https://stripe.com)
+2. Log in to the dashboard
 
-## 2. APIキーの取得
+## 2. Obtain API Keys
 
-### 公開可能キー
+### Publishable Key
 
-1. 左メニューから「開発者」→「APIキー」を選択
-2. 「公開可能キー」をコピー
+1. Select "Developers" → "API keys" from the left menu
+2. Copy the "Publishable key"
 
-### 制限付きキー（Restricted Key）
+### Restricted Key
 
-1. 「制限付きキーを作成」をクリック
-2. 以下の権限のみを付与:
-   - Products: 読み取り
-   - Prices: 読み取り
-   - Checkout Sessions: 書き込み
-3. 作成したRestricted Keyをコピー
+1. Click "Create restricted key"
+2. Grant only the following permissions:
+   - Products: Read
+   - Prices: Read
+   - Checkout Sessions: Write
+3. Copy the created Restricted Key
 
-## 3. テストモードの確認
+## 3. Verify Test Mode
 
-開発中は必ずテストモードを使用してください。ダッシュボード右上でテストモードがONになっていることを確認してください。
+Always use test mode during development. Ensure test mode is ON in the upper right corner of the dashboard.
