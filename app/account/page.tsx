@@ -1,3 +1,4 @@
+'use client'
 import { useUser } from '@clerk/nextjs';
 import { Container } from '@/components/ui/container';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';

@@ -1,17 +1,17 @@
-import Head from 'next/head'
 import { Container } from '@/components/ui/container'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: '決済完了 - EC Site',
+  description: '決済が完了しました',
+}
 
 export default function Success() {
   return (
     <main>
-      <Head>
-        <title>決済完了 - EC Site</title>
-        <meta name="description" content="決済が完了しました" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <Container className="py-12">
         <div className="max-w-md mx-auto">
           <Card>
